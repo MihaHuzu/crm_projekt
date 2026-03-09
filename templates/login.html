@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Login - CRM{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+
+        <h1>🔐 Login</h1>
+
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"
+                       placeholder="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"
+                       placeholder="••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                    style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+                Login
+            </button>
+
+        </form>
+
+        <!-- Link catre register - vizibil doar pentru admin -->
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+        <div class="auth-footer">
+            <a href="{{ url_for('register') }}">+ Add new account</a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Register - CRM{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+
+        <h1>📝 Cont nou</h1>
+
+        <form method="POST" action="{{ url_for('register') }}">
+
+            <div class="form-group">
+                <label for="username">Username *</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Parola * (min. 6 caractere)</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirma Parola *</label>
+                <input type="password" id="confirm_password"
+                       name="confirm_password" required>
+            </div>
+
+            <!-- Selectia rolului - vizibila doar pentru admin -->
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary"
+                    style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+                Create account
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="{{ url_for('login') }}">Login</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

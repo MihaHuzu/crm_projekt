@@ -15,4 +15,46 @@
     </form>
     <a href="{{ url_for('customers') }}" class="btn btn-primary">Back</a>
 </div>
+
+<!-- SECTIUNEA CONTACTE -->
+<hr style="margin: 2rem 0;">
+<h2>Contact History</h2>
+
+<!-- Lista contactelor existente -->
+{% if contacts %}
+    {% for contact in contacts %}
+    <div style="border-left: 3px solid #3b82f6; padding-left: 1rem; margin-bottom: 1rem;">
+        <strong>{{ contact.contact_type | title }}</strong>
+        <span style="color: #6b7280; font-size: 0.9rem; margin-left: 1rem;">
+            {{ contact.date.strftime('%d.%m.%Y %H:%M') }}
+        </span>
+        <p>{{ contact.notes }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p style="color: #6b7280;">No contacts recorded yet.</p>
+{% endif %}
+
+<!-- Formular pentru a adauga un contact nou -->
+<h3 style="margin-top: 2rem;">Add Contact</h3>
+<form method="POST" action="{{ url_for('add_contact', customer_id=customer.id) }}">
+    <div class="form-group">
+        <label for="contact_type">Type</label>
+        <select id="contact_type" name="contact_type" required>
+            <option value="">-- Select --</option>
+            <option value="phone">Phone</option>
+            <option value="email">Email</option>
+            <option value="meeting">Meeting</option>
+            <option value="note">Note</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3" 
+                  style="width:100%; padding:0.5rem; border:1px solid #e5e7eb; border-radius:4px;"
+                  required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Contact</button>
+</form>
+
 {% endblock %}

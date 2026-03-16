@@ -18,6 +18,10 @@
                 <li><a href="{{ url_for('customers') }}" class="nav-link">Customers</a></li>
                 <li><a href="{{ url_for('leads') }}" class="nav-link">Leads</a></li>
 
+                {% if current_user.is_admin() %}
+                <li><a href="{{ url_for('register') }}" class="nav-link">+ New User</a></li>
+                {% endif %}
+                
                 <!-- NOU: numele userului + rolul sau -->
                 <li class="nav-user-info">
                     👤 {{ current_user.username }}

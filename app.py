@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Customer, Lead, Contact
+from api import create_api
+
 app = Flask(__name__)
 app.secret_key = 'secretkey'
 
@@ -8,6 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///crm.db'  # creeaza fisierul c
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # leaga db-ul de aplicatie
+create_api(app)
 
 # ---------------------------------------------------------------
 # NOU: Configurare Flask-Login
@@ -340,5 +343,5 @@ def internal_error(error):
 # MODIFICAT: init_sample_data() -> init_db()
 # ---------------------------------------------------------------
 if __name__ == '__main__':
-    init_db()  # in loc de init_sample_data()
+    init_db()  
     app.run(debug=True, host='127.0.0.1', port=5000)

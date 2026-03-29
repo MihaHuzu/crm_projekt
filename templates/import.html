@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Import - CRM{% endblock %}
+
+{% block content %}
+<h1>Import Customers</h1>
+
+<div style="max-width: 500px; background: white; padding: 2rem;
+            border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-top: 1rem;">
+
+    <form method="POST" action="{{ url_for('export_import.import_data') }}"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label>Datei (CSV oder Excel)</label>
+            <input type="file" name="file" accept=".csv,.xlsx,.xls" required
+                   style="width:100%; padding:0.5rem; border:1px solid #e5e7eb; border-radius:4px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+            Importieren
+        </button>
+    </form>
+
+    <!-- Format Hinweis -->
+    <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff;
+                border-radius: 4px; border-left: 3px solid #3b82f6;">
+        <strong>Erwartetes Format:</strong><br>
+        <code>name, email, company, phone, status</code>
+        <br><br>
+        <strong>Beispiel:</strong><br>
+        <code>Max Müller, max@example.com, Firma GmbH, 0650 123456, active</code>
+        <br><br>
+        <small style="color: #6b7280;">
+            Tipp: Exportiere zuerst die bestehenden Kunden als CSV/Excel
+            um das Format zu sehen.
+        </small>
+    </div>
+</div>
+{% endblock %}

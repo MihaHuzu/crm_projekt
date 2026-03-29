@@ -51,6 +51,15 @@ def create_api(app):
         'created_at': fields.String(description='Erstellungsdatum')
     })
 
+    customer_input_model = api.model('CustomerInput', {
+        'name':    fields.String(required=True, description='Name des Kunden'),
+        'email':   fields.String(required=True, description='E-Mail'),
+        'company': fields.String(required=True, description='Unternehmen'),
+        'phone':   fields.String(required=True, description='Telefon'),
+        'status':  fields.String(description='prospect/active/inactive')
+    })
+
+    
     # Modell für Lead
     lead_model = api.model('Lead', {
         'id':      fields.Integer(description='Eindeutige ID'),
@@ -62,6 +71,16 @@ def create_api(app):
         'status':  fields.String(description='Status: new/contacted/qualified/lost')
     })
 
+    # Model input pentru Lead
+    lead_input_model = api.model('LeadInput', {
+        'name':    fields.String(required=True, description='Name'),
+        'email':   fields.String(required=True, description='E-Mail'),
+        'company': fields.String(required=True, description='Unternehmen'),
+        'value':   fields.Float(description='Deal-Wert'),
+        'source':  fields.String(required=True, description='Quelle')
+    })
+
+
     # Modell für Contact
     contact_model = api.model('Contact', {
         'id':           fields.Integer(description='Eindeutige ID'),
@@ -71,6 +90,11 @@ def create_api(app):
         'date':         fields.String(description='Kontaktdatum')
     })
 
+    # Model input pentru Contact
+    contact_input_model = api.model('ContactInput', {
+        'contact_type': fields.String(required=True, description='phone/email/meeting/note'),
+        'notes':        fields.String(required=True, description='Notizen')
+    })
     # ---------------------------------------------------------------
     # Hilfsfunktionen - wandeln ein Objekt in ein Dictionary um
     # ---------------------------------------------------------------
@@ -122,6 +146,7 @@ def create_api(app):
             return [customer_to_dict(c) for c in customers]
 
         @customers_ns.doc('create_customer')
+        @customers_ns.expect(customer_input_model)
         @customers_ns.marshal_with(customer_model, code=201)
         def post(self):
             """Fügt einen neuen Kunden hinzu - POST /api/customers/"""
@@ -168,6 +193,7 @@ def create_api(app):
             return customer_to_dict(customer)
 
         @customers_ns.doc('update_customer')
+        @customers_ns.expect(customer_input_model)
         @customers_ns.marshal_with(customer_model)
         def put(self, customer_id):
             """Aktualisiert einen Kunden - PUT /api/customers/1"""
@@ -213,6 +239,7 @@ def create_api(app):
             """Gibt alle Leads zurück - GET /api/leads/"""
             return [lead_to_dict(l) for l in Lead.query.all()]
 
+        @leads_ns.expect(lead_input_model)
         @leads_ns.marshal_with(lead_model, code=201)
         def post(self):
             """Fügt einen neuen Lead hinzu - POST /api/leads/"""
@@ -271,6 +298,7 @@ def create_api(app):
             contacts = Contact.query.filter_by(customer_id=customer_id).all()
             return [contact_to_dict(c) for c in contacts]
 
+        @contacts_ns.expect(contact_input_model)
         @contacts_ns.marshal_with(contact_model, code=201)
         def post(self, customer_id):
             """Fügt einen Kontakt hinzu - POST /api/contacts/customer/1"""

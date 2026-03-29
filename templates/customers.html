@@ -5,6 +5,13 @@
 
 <p>
     <a href="{{ url_for('add_customer') }}" class="btn btn-primary">+ Add Customer</a>
+
+    <!-- NOU: Export butoane -->
+    <a href="{{ url_for('export_import.export_customers_csv') }}" class="btn btn-primary">Export CSV</a>
+    <a href="{{ url_for('export_import.export_customers_excel') }}" class="btn btn-primary">Export Excel</a>
+
+    <!-- NOU: Import buton -->
+    <a href="{{ url_for('export_import.import_data') }}" class="btn btn-primary">Import</a>
 </p>
 
 <table class="table">

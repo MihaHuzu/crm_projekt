@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Customer, Lead, Contact
 from api import create_api
+from export_import import export_import
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
@@ -11,6 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # leaga db-ul de aplicatie
 create_api(app)
+app.register_blueprint(export_import)
 
 # ---------------------------------------------------------------
 # NOU: Configurare Flask-Login

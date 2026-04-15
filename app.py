@@ -11,7 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///crm.db'  # creeaza fisierul c
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # leaga db-ul de aplicatie
-create_api(app)
 app.register_blueprint(export_import)
 
 # ---------------------------------------------------------------
@@ -344,6 +343,7 @@ def internal_error(error):
 # ---------------------------------------------------------------
 # MODIFICAT: init_sample_data() -> init_db()
 # ---------------------------------------------------------------
+create_api(app)
 if __name__ == '__main__':
     init_db()  
     app.run(debug=True, host='127.0.0.1', port=5000)

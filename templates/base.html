@@ -17,6 +17,7 @@
                 <li><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
                 <li><a href="{{ url_for('customers') }}" class="nav-link">Customers</a></li>
                 <li><a href="{{ url_for('leads') }}" class="nav-link">Leads</a></li>
+                <li><a href="/api/docs" class="nav-link">API Docs</a></li>
 
                 {% if current_user.is_admin() %}
                 <li><a href="{{ url_for('register') }}" class="nav-link">+ New User</a></li>
